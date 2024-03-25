@@ -11,12 +11,13 @@ ScriptGate is a library that realizes mutual calling of JavaScript and Delphi co
 | Item        | Description                  |
 |-------------|------------------------------|
 | Environment | Delphi, RAD Studio           |
-| Version     | 10.2.x Tokyo, 10.3 Rio       |
+| Version     | 10.2.x Tokyo, 10.3 Rio, 10.4 , 11 , 12       |
 | Framework   | FireMonkey                   |
 | Support OS  | Windows, macOS, Android, iOS |
 
 ##History
 2018/12/10 10.3 Rio is supported.
+2024/03/25 D11,12(iOS) is supported by DelphiTeacher.
 
 ##Files
 | Files                   | Description                          |

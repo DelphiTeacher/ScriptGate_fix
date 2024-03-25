@@ -9,12 +9,13 @@ ScriptGate は TWebBrowser 上の JavaScript と Delphi メソッドの相互呼
 | 項目       | 内容                         |
 |------------|------------------------------|
 | 環境       | Delphi, RAD Studio           |
-| Version    | 10.2.x Tokyo, 10.3 Rio       |
+| Version    | 10.2.x Tokyo, 10.3 Rio, 10.4, 11, 12       |
 | Framework  | FireMonkey                   |
 | サポートOS | Windows, macOS, Android, iOS |
 
 ##履歴
 2018/12/10 10.3 Rio に対応しました。
+2024/03/25 D11,D12 に対応しました by DelphiTeacher。
 
 ##ファイル
 
