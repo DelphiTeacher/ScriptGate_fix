@@ -111,6 +111,7 @@ begin
   if (RttiType = nil) then
     Exit;
 
+  //TWinWBMediator下面的FBrowser
   RttiField := RttiType.GetField(iField);
   if (RttiField = nil) then
     Exit;

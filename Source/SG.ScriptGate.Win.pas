@@ -28,6 +28,7 @@ uses
   , FMX.Types
   , FMX.Platform
   , FMX.WebBrowser
+  , FMX.WebBrowser.Win
   , FMX.Controls.Ole
   ;
 
@@ -227,12 +228,53 @@ end;
 constructor TScriptGateWin.Create(const iScriptGate: TScriptGate);
 var
   Obj: TObject;
+  BrowserEngine:TObject;
   RttiType: TRttiType;
   RttiField: TRttiField;
 begin
   inherited Create;
 
+
   FScriptGate := TOpenScriptGate(iScriptGate);
+
+
+  {$IF CompilerVersion>=35}
+  //适用于D12以上，它windows下面即支持IE，又支持Edge
+  //FWeb:TWinWBMediator
+  //  ->FBrowser:TWindowsWebBrowserService
+  Obj :=  FScriptGate.WebBrowser.GetField<TObject>('FBrowser');
+  if (Obj = nil) then
+    Exit;
+
+
+  RttiType := SharedContext.GetType(Obj.ClassType);
+  if (RttiType = nil) then
+    Exit;
+
+  //FBrowser:TWindowsWebBrowserService
+  //  ->FBrowserEngine: TWindowsBrowserEngine;
+  RttiField := RttiType.GetField('FBrowserEngine');
+  if (RttiField = nil) then
+    Exit;
+  BrowserEngine := RttiField.GetValue(Obj).AsType<TObject>;
+
+
+  //TWindowsBrowserEngineIE
+  RttiType := SharedContext.GetType(BrowserEngine.ClassType);
+  if (RttiType = nil) then
+    Exit;
+
+
+  RttiField := RttiType.GetField('FInstance');
+  if (RttiField = nil) then
+    Exit;
+
+  FWebBrowser := RttiField.GetValue(BrowserEngine).AsType<TOleWebBrowser>;
+
+
+
+  {$ELSE}
+  //适用于D11以下
   Obj :=  FScriptGate.WebBrowser.GetField<TObject>('FBrowser');
   if (Obj = nil) then
     Exit;
@@ -247,8 +289,14 @@ begin
 
   FWebBrowser := RttiField.GetValue(Obj).AsType<TOleWebBrowser>;
 
+  {$ENDIF}
+
+
   FOldBeforeNavigate := FWebBrowser.OnBeforeNavigate2;
   FWebBrowser.OnBeforeNavigate2 := BeforeNavigate;
+
+
+
 end;
 
 destructor TScriptGateWin.Destroy;
